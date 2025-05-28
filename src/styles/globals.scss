@@ -1,0 +1,91 @@
+@import 'variables';
+
+:root {
+  --primary-color: #{$primary-color};
+  --background-light: #{$background-light};
+  --background-dark: #{$background-dark};
+  --text-light: #{$text-light};
+  --text-dark: #{$text-dark};
+}
+
+[data-theme='light'] {
+  --background-color: var(--background-light);
+  --text-color: var(--text-light);
+  --sidebar-background: var(--background-light);
+  --border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --background-color: var(--background-dark);
+  --text-color: var(--text-dark);
+  --sidebar-background: #{$background-dark};
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  color: var(--text-color);
+  background: var(--background-color);
+  transition: background-color $transition-duration $transition-timing,
+              color $transition-duration $transition-timing;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  height: 100%;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: $sidebar-width;
+  padding: $spacing-xl;
+  transition: margin-left $transition-duration $transition-timing;
+
+  @media (max-width: $mobile) {
+    margin-left: $sidebar-width-collapsed;
+  }
+}
+
+// Typography
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: $spacing-lg;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: $spacing-md;
+}
+
+// Utility classes
+.text-primary {
+  color: var(--primary-color);
+}
+
+.transition-colors {
+  transition: color $transition-duration $transition-timing;
+} 

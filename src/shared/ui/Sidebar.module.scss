@@ -1,0 +1,62 @@
+@import '../../styles/variables';
+
+.sidebar {
+  width: $sidebar-width;
+  position: fixed;
+  height: 100vh;
+  background: var(--sidebar-background);
+  border-right: 1px solid var(--border-color);
+  padding: $spacing-md;
+  transition: width $transition-duration $transition-timing,
+              background-color $transition-duration $transition-timing;
+  z-index: $z-sidebar;
+
+  @media (max-width: $mobile) {
+    width: $sidebar-width-collapsed;
+  }
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: $spacing-xl;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: $mobile) {
+    font-size: 1.2rem;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xl;
+}
+
+.navLink {
+  padding: $spacing-sm;
+  border-radius: 4px;
+  transition: background-color $transition-duration $transition-timing,
+              color $transition-duration $transition-timing;
+
+  &:hover {
+    background-color: var(--border-color);
+    color: var(--primary-color);
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xs;
+    text-align: center;
+  }
+}
+
+.themeToggle {
+  margin-top: auto;
+  padding: $spacing-sm;
+  display: flex;
+  justify-content: center;
+} 
