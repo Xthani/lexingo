@@ -3,7 +3,6 @@
 import { Box, Flex, Text } from '@radix-ui/themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ThemeToggle } from './ThemeToggle';
 import styles from './Sidebar.module.scss';
 
 const navigation = [
@@ -33,10 +32,6 @@ export const Sidebar = () => {
             </Link>
           ))}
         </nav>
-
-        <div className={styles.themeToggle}>
-          <ThemeToggle />
-        </div>
       </Flex>
     </Box>
   );

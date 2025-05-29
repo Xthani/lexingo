@@ -1,0 +1,20 @@
+@import '../../styles/variables';
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  color: var(--text-color);
+  padding: $spacing-xs $spacing-sm;
+  border-radius: 4px;
+  transition: background-color $transition-duration $transition-timing;
+
+  &:hover {
+    background-color: var(--border-color);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+} 

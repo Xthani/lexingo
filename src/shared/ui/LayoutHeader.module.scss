@@ -1,0 +1,18 @@
+@import '../../styles/variables';
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: $sidebar-width;
+  height: $header-height;
+  padding: 0 $spacing-xl;
+  background: var(--background-color);
+  border-bottom: 1px solid var(--border-color);
+  z-index: $z-header;
+  transition: left $transition-duration $transition-timing;
+
+  @media (max-width: $mobile) {
+    left: $sidebar-width-collapsed;
+  }
+} 

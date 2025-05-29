@@ -22,13 +22,15 @@ export default function LessonPage() {
       <Select.Root defaultValue="1" onValueChange={handleLessonChange}>
         <Select.Trigger />
         <Select.Content>
-          {lessons.map((lesson) => (
-            <Select.Item key={lesson.id} value={lesson.id}>
-              {lesson.title}
-            </Select.Item>
-          ))}
+          <>
+            {lessons.map((lesson) => (
+              <Select.Item key={lesson.id} value={lesson.id}>
+                {lesson.title}
+              </Select.Item>
+            ))}
+          </>
         </Select.Content>
       </Select.Root>
     </div>
   );
-} 
+}

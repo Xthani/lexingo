@@ -3,9 +3,12 @@
 :root {
   --primary-color: #{$primary-color};
   --background-light: #{$background-light};
-  --background-dark: #{$background-dark};
   --text-light: #{$text-light};
   --text-dark: #{$text-dark};
+  --gray-900: #{$gray-900};
+  --gray-800: #{$gray-800};
+  --gray-700: #{$gray-700};
+  --gray-600: #{$gray-600};
 }
 
 [data-theme='light'] {
@@ -13,13 +16,17 @@
   --text-color: var(--text-light);
   --sidebar-background: var(--background-light);
   --border-color: rgba(0, 0, 0, 0.1);
+  --button-background: #f3f4f6;
+  --button-hover: #e5e7eb;
 }
 
 [data-theme='dark'] {
-  --background-color: var(--background-dark);
+  --background-color: var(--gray-700);
   --text-color: var(--text-dark);
-  --sidebar-background: #{$background-dark};
+  --sidebar-background: var(--gray-900);
   --border-color: rgba(255, 255, 255, 0.1);
+  --button-background: #374151;
+  --button-hover: #4b5563;
 }
 
 * {
@@ -36,10 +43,10 @@ body {
 }
 
 body {
-  color: var(--text-color);
-  background: var(--background-color);
-  transition: background-color $transition-duration $transition-timing,
-              color $transition-duration $transition-timing;
+  //color: var(--text-color);
+  //background: var(--background-color);
+  //transition: background-color $transition-duration $transition-timing,
+  //            color $transition-duration $transition-timing;
 }
 
 a {
@@ -58,8 +65,10 @@ a {
 }
 
 .main-content {
+  background: var(--background-color);
   flex: 1;
   margin-left: $sidebar-width;
+  margin-top: $header-height;
   padding: $spacing-xl;
   transition: margin-left $transition-duration $transition-timing;
 
@@ -73,12 +82,29 @@ h1 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: $spacing-lg;
+  color: var(--text-color);
 }
 
 h2 {
   font-size: 1.5rem;
   font-weight: 500;
   margin-bottom: $spacing-md;
+  color: var(--text-color);
+}
+
+// Buttons
+button {
+  background: var(--button-background);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: $spacing-sm $spacing-md;
+  cursor: pointer;
+  transition: background-color $transition-duration $transition-timing;
+
+  &:hover {
+    background: var(--button-hover);
+  }
 }
 
 // Utility classes

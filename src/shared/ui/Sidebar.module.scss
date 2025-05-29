@@ -38,6 +38,7 @@
 }
 
 .navLink {
+  color: var(--text-color);
   padding: $spacing-sm;
   border-radius: 4px;
   transition: background-color $transition-duration $transition-timing,
@@ -52,6 +53,10 @@
     padding: $spacing-xs;
     text-align: center;
   }
+}
+
+.active {
+  background-color: var(--border-color);
 }
 
 .themeToggle {
