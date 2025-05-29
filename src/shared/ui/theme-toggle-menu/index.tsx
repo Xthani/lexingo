@@ -4,7 +4,7 @@ import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import styles from './ThemeToggleMenu.module.scss';
+import styles from './styles.module.scss';
 
 export const ThemeToggleMenu = () => {
   const [mounted, setMounted] = useState(false);

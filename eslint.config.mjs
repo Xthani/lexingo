@@ -1,21 +1,28 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import eslint from '@eslint/js';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tseslintParser from '@typescript-eslint/parser';
+import prettier from 'eslint-config-prettier';
+import nextPlugin from 'eslint-config-next';
+import fsdPlugin from '@feature-sliced/eslint-config';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends(
-    "next/core-web-vitals",
-    "next/typescript",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
-  ),
+export default [
+  eslint.configs.recommended,
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tseslintParser,
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+    },
+    rules: {
+      ...tseslint.configs.recommended.rules,
+      ...nextPlugin.rules,
+      ...fsdPlugin.rules,
+    },
+  },
+  prettier,
 ];
-
-export default eslintConfig;

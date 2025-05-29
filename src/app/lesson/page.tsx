@@ -1,36 +1,11 @@
-'use client';
+import { LessonList } from '@widgets/lesson-list';
 
-import { Select } from '@radix-ui/themes';
-import { useRouter } from 'next/navigation';
-
-const lessons = [
-  { id: '1', title: 'Урок 1: Приветствие' },
-  { id: '2', title: 'Урок 2: Знакомство' },
-  { id: '3', title: 'Урок 3: Семья' },
+const mockLessons = [
+  { id: '1', title: 'Урок 1: Приветствие', createdAt: '2024-03-29', updatedAt: '2024-03-29' },
+  { id: '2', title: 'Урок 2: Знакомство', createdAt: '2024-03-29', updatedAt: '2024-03-29' },
+  { id: '3', title: 'Урок 3: Семья', createdAt: '2024-03-29', updatedAt: '2024-03-29' },
 ];
 
 export default function LessonPage() {
-  const router = useRouter();
-
-  const handleLessonChange = (value: string) => {
-    router.push(`/lesson/${value}`);
-  };
-
-  return (
-    <div>
-      <h1>Выберите урок</h1>
-      <Select.Root defaultValue="1" onValueChange={handleLessonChange}>
-        <Select.Trigger />
-        <Select.Content>
-          <>
-            {lessons.map((lesson) => (
-              <Select.Item key={lesson.id} value={lesson.id}>
-                {lesson.title}
-              </Select.Item>
-            ))}
-          </>
-        </Select.Content>
-      </Select.Root>
-    </div>
-  );
+  return <LessonList lessons={mockLessons} />;
 }

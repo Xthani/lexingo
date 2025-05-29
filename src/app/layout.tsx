@@ -1,9 +1,9 @@
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import { ThemeProvider } from 'next-themes';
-import { Sidebar } from '@/shared/ui/Sidebar';
-import { LayoutHeader } from '@/shared/ui/LayoutHeader';
-import '@/styles/globals.scss';
+import '@shared/styles/globals.scss';
+import { LayoutHeader } from '@shared/ui/layout-header';
+import { Sidebar } from '@shared/ui/sidebar';
 
 export const metadata = {
   title: 'Lexingo',

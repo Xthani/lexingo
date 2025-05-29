@@ -3,7 +3,7 @@
 import { Box, Flex, Text } from '@radix-ui/themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import styles from './Sidebar.module.scss';
+import styles from './styles.module.scss';
 
 const navigation = [
   { name: 'Уроки', href: '/lesson' },
@@ -24,9 +24,7 @@ export const Sidebar = () => {
             <Link
               key={item.href}
               href={item.href}
-              className={`${styles.navLink} ${
-                pathname === item.href ? styles.active : ''
-              }`}
+              className={`${styles.navLink} ${pathname === item.href ? styles.active : ''}`}
             >
               {item.name}
             </Link>
@@ -35,4 +33,4 @@ export const Sidebar = () => {
       </Flex>
     </Box>
   );
-}; 
+};

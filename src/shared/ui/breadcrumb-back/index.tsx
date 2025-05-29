@@ -2,7 +2,7 @@
 
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
-import styles from './BreadcrumbBack.module.scss';
+import styles from './styles.module.scss';
 
 export const BreadcrumbBack = () => {
   return (

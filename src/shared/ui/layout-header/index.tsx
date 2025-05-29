@@ -1,8 +1,8 @@
 'use client';
 
 import { Box, Flex } from '@radix-ui/themes';
-import { ThemeToggleMenu } from './ThemeToggleMenu';
-import styles from './LayoutHeader.module.scss';
+import styles from './styles.module.scss';
+import { ThemeToggleMenu } from '@shared/ui/theme-toggle-menu';
 
 export const LayoutHeader = () => {
   return (
