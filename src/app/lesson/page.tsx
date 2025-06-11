@@ -1,4 +1,7 @@
+'use client';
+
 import { LessonList } from '@widgets/lesson-list';
+import { useEffect } from 'react';
 
 const mockLessons = [
   { id: '1', title: 'Урок 1: Приветствие', createdAt: '2024-03-29', updatedAt: '2024-03-29' },
@@ -7,5 +10,13 @@ const mockLessons = [
 ];
 
 export default function LessonPage() {
-  return <LessonList lessons={mockLessons} />;
+  useEffect(() => {
+    console.log('sd');
+  }, []);
+  return (
+    <div>
+      hello
+      <LessonList lessons={mockLessons} />
+    </div>
+  );
 }
