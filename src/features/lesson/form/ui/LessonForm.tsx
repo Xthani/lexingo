@@ -27,6 +27,8 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
   const [title, setTitle] = useState(lesson?.title || '');
   const [words, setWords] = useState<Word[]>(lesson?.words || []);
   const [isLoading, setIsLoading] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [newWord, setNewWord] = useState({
     originalText: '',
     sourceLanguage: 'ru',
@@ -36,6 +38,9 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
 
   const handleAddWord = async () => {
     if (!newWord.originalText.trim()) return;
+
+    setIsTranslating(true);
+    setError(null);
 
     try {
       const translatedText = await translate(
@@ -61,7 +66,10 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
         targetLanguage: 'en',
       });
     } catch (error) {
+      setError('Ошибка при переводе слова. Пожалуйста, попробуйте еще раз.');
       console.error('Error translating word:', error);
+    } finally {
+      setIsTranslating(false);
     }
   };
 
@@ -150,6 +158,7 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
                     setNewWord({ ...newWord, originalText: e.target.value })
                   }
                   placeholder="Введите слово"
+                  disabled={isTranslating}
                 />
               </TextField.Slot>
             </TextField.Root>
@@ -157,6 +166,7 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
             <Select.Root
               value={newWord.sourceLanguage}
               onValueChange={(value) => setNewWord({ ...newWord, sourceLanguage: value })}
+              disabled={isTranslating}
             >
               <Select.Trigger />
               <Select.Content>
@@ -171,6 +181,7 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
             <Select.Root
               value={newWord.targetLanguage}
               onValueChange={(value) => setNewWord({ ...newWord, targetLanguage: value })}
+              disabled={isTranslating}
             >
               <Select.Trigger />
               <Select.Content>
@@ -182,10 +193,16 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
               </Select.Content>
             </Select.Root>
 
-            <IconButton onClick={handleAddWord}>
+            <IconButton type="button" onClick={handleAddWord} disabled={isTranslating}>
               <PlusIcon />
             </IconButton>
           </Box>
+
+          {error && (
+            <Text color="red" size="2" mt="2">
+              {error}
+            </Text>
+          )}
         </Box>
 
         <Box className={styles.buttons}>

@@ -9,21 +9,19 @@ export const useLessons = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const loadLessons = async () => {
-      try {
-        const db = await getDB();
-        const allLessons = await db.getAll('lessons');
-        setLessons(allLessons);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Failed to load lessons'));
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const refreshLessons = async () => {
+    try {
+      const db = await getDB();
+      const allLessons = await db.getAll('lessons');
+      setLessons(allLessons);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Failed to load lessons'));
+    }
+  };
 
-    loadLessons();
+  useEffect(() => {
+    refreshLessons().finally(() => setIsLoading(false));
   }, []);
 
-  return { lessons, isLoading, error };
+  return { lessons, isLoading, error, refreshLessons };
 }; 

@@ -10,28 +10,47 @@ export interface TranslateResponse {
   translatedText: string;
 }
 
-export const translate = async (text: string, sourceLang: string, targetLang: string): Promise<string> => {
+export interface TranslationResult {
+  translatedText: string;
+  detectedLanguage: string;
+  sourceLanguage: string;
+  targetLanguage: string;
+}
+
+export async function freeTranslateText(
+  text: string,
+  targetLanguage: string = "en",
+  sourceLanguage: string = "auto"
+): Promise<TranslationResult> {
   try {
-    const response = await fetch(`${LIBRE_TRANSLATE_API}/translate`, {
-      method: 'POST',
-      body: JSON.stringify({
-        q: text,
-        source: sourceLang,
-        target: targetLang,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${text}`)
+    const data = await res.json();
+    const translatedText = data[0][0][0];
+    const detectedLanguage = data[0][2];
 
-    if (!response.ok) {
-      throw new Error('Translation failed');
-    }
+    return {
+      translatedText,
+      detectedLanguage,
+      sourceLanguage: sourceLanguage === "auto" ? detectedLanguage : sourceLanguage,
+      targetLanguage
+    };
+  } catch {
+    // второй способ
+    const res = await fetch(`https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=${sourceLanguage}&tl=${targetLanguage}&q=${text}`)
+    const data = await res.json();
+    const translatedText = data[0][0];
+    const detectedLanguage = data[0][1];
 
-    const data: TranslateResponse = await response.json();
-    return data.translatedText;
-  } catch (error) {
-    console.error('Translation error:', error);
-    throw error;
+    return {
+      translatedText,
+      detectedLanguage,
+      sourceLanguage: sourceLanguage === "auto" ? detectedLanguage : sourceLanguage,
+      targetLanguage
+    };
   }
+}
+
+export const translate = async (text: string, sourceLang: string, targetLang: string): Promise<string> => {
+  const result = await freeTranslateText(text, targetLang, sourceLang);
+  return result.translatedText;
 }; 

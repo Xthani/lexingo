@@ -11,7 +11,7 @@ import { Lesson } from '@shared/lib/indexedDB/types';
 import { getDB } from '@shared/lib/indexedDB/db';
 
 export default function LessonEditorPage() {
-  const { lessons, isLoading, error } = useLessons();
+  const { lessons, isLoading, error, refreshLessons } = useLessons();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<Lesson | undefined>();
@@ -35,14 +35,16 @@ export default function LessonEditorPage() {
       await db.delete('lessons', lessonToDelete.id);
       setIsAlertOpen(false);
       setLessonToDelete(null);
+      await refreshLessons();
     } catch (error) {
       console.error('Error deleting lesson:', error);
     }
   };
 
-  const handleModalClose = () => {
+  const handleModalClose = async () => {
     setIsModalOpen(false);
     setSelectedLesson(undefined);
+    await refreshLessons();
   };
 
   if (isLoading) {
