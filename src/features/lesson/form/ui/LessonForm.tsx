@@ -46,7 +46,7 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
       const translatedText = await translate(
         newWord.originalText,
         newWord.sourceLanguage,
-        newWord.targetLanguage
+        newWord.targetLanguage,
       );
 
       const word: Word = {
@@ -116,16 +116,12 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
           <Text as="label" size="2" mb="1" weight="bold">
             Название урока
           </Text>
-          <TextField.Root>
-            <TextField.Slot>
-              <input
-                value={title}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-                placeholder="Введите название урока"
-                required
-              />
-            </TextField.Slot>
-          </TextField.Root>
+          <TextField.Root
+            value={title}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            placeholder="Введите название урока"
+            required
+          />
         </Box>
 
         <Box mb="4">
@@ -150,18 +146,14 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
           </Box>
 
           <Box className={styles.addWord}>
-            <TextField.Root>
-              <TextField.Slot>
-                <input
-                  value={newWord.originalText}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setNewWord({ ...newWord, originalText: e.target.value })
-                  }
-                  placeholder="Введите слово"
-                  disabled={isTranslating}
-                />
-              </TextField.Slot>
-            </TextField.Root>
+            <TextField.Root
+              value={newWord.originalText}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewWord({ ...newWord, originalText: e.target.value })
+              }
+              placeholder="Введите слово"
+              disabled={isTranslating}
+            />
 
             <Select.Root
               value={newWord.sourceLanguage}
@@ -218,4 +210,4 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
       </form>
     </Card>
   );
-}; 
+};

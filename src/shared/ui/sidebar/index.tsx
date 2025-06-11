@@ -7,7 +7,6 @@ import styles from './styles.module.scss';
 
 const navigation = [
   { name: 'Уроки', href: '/lesson' },
-  { name: 'Редактор уроков', href: '/lesson-editor' },
   { name: 'Ошибки', href: '/errors' },
 ];
 
@@ -17,7 +16,9 @@ export const Sidebar = () => {
   return (
     <Box className={styles.sidebar}>
       <Flex direction="column" style={{ height: '100%' }}>
-        <Text className={styles.logo}>Lexingo</Text>
+        <Link href={'/'} className={styles.logo}>
+          <Text>Lexingo</Text>
+        </Link>
 
         <nav className={styles.nav}>
           {navigation.map((item) => (
