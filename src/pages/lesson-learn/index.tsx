@@ -15,12 +15,17 @@ interface LearningStats {
   wrong: number;
 }
 
+interface LastCheckResult {
+  word: string;
+  result: 'correct' | 'almost' | 'wrong';
+}
+
 export default function LessonLearnPage() {
   const router = useRouter();
   const params = useParams() ?? {};
   const idParam = (params as Record<string, string | string[] | undefined>).id;
   const lessonId = typeof idParam === 'string' ? idParam : Array.isArray(idParam) ? idParam[0] : '';
-
+  
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState<LearningMode>('ru-to-en');
@@ -29,6 +34,7 @@ export default function LessonLearnPage() {
   const [userInput, setUserInput] = useState('');
   const [stats, setStats] = useState<LearningStats>({ correct: 0, almost: 0, wrong: 0 });
   const [isStarted, setIsStarted] = useState(false);
+  const [lastCheckResult, setLastCheckResult] = useState<LastCheckResult | null>(null);
 
   useEffect(() => {
     if (!lessonId) return;
@@ -82,6 +88,11 @@ export default function LessonLearnPage() {
       mode === 'ru-to-en' ? currentWord.translatedText : currentWord.originalText;
     const result = checkTranslation(userInput, [correctAnswer]);
 
+    setLastCheckResult({
+      word: correctAnswer,
+      result: result.result,
+    });
+
     setStats((prev) => ({
       ...prev,
       [result.result]: prev[result.result] + 1,
@@ -94,6 +105,28 @@ export default function LessonLearnPage() {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSubmit();
+    }
+  };
+
+  const getResultColor = (result: 'correct' | 'almost' | 'wrong') => {
+    switch (result) {
+      case 'correct':
+        return 'green';
+      case 'almost':
+        return 'yellow';
+      case 'wrong':
+        return 'red';
+    }
+  };
+
+  const getResultText = (result: 'correct' | 'almost' | 'wrong') => {
+    switch (result) {
+      case 'correct':
+        return 'Верно';
+      case 'almost':
+        return 'Почти правильно';
+      case 'wrong':
+        return 'Неверно';
     }
   };
 
@@ -129,6 +162,13 @@ export default function LessonLearnPage() {
     return (
       <Box>
         <Card>
+          {lastCheckResult && (
+            <Box mb="4">
+              <Text color={getResultColor(lastCheckResult.result)}>
+                {getResultText(lastCheckResult.result)}: {lastCheckResult.word}
+              </Text>
+            </Box>
+          )}
           <Text size="4" weight="bold" mb="4">
             Обучение завершено!
           </Text>
@@ -149,6 +189,13 @@ export default function LessonLearnPage() {
   return (
     <Box>
       <Card>
+        {lastCheckResult && (
+          <Box mb="4">
+            <Text color={getResultColor(lastCheckResult.result)}>
+              {getResultText(lastCheckResult.result)}: {lastCheckResult.word}
+            </Text>
+          </Box>
+        )}
         <Text size="4" weight="bold" mb="4">
           {mode === 'ru-to-en' ? currentWord.originalText : currentWord.translatedText}
         </Text>
