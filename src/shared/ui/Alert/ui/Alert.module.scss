@@ -1,0 +1,18 @@
+.alert {
+  max-width: 400px;
+  width: 100%;
+}
+
+.title {
+  margin-bottom: 12px;
+}
+
+.message {
+  margin-bottom: 24px;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+} 

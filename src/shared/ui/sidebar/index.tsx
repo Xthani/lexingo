@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 
 const navigation = [
   { name: 'Уроки', href: '/lesson' },
-  { name: 'Добавить урок', href: '/add' },
+  { name: 'Редактор уроков', href: '/lesson-editor' },
   { name: 'Ошибки', href: '/errors' },
 ];
 

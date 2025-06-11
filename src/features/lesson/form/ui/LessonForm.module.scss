@@ -1,0 +1,32 @@
+.form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.wordsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.wordItem {
+  padding: 12px;
+}
+
+.addWord {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  > *:first-child {
+    flex: 1;
+  }
+} 

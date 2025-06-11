@@ -1,13 +1,13 @@
 export interface Lesson {
   id: string;
   title: string;
+  words?: Word[];
   createdAt: string;
   updatedAt: string;
 }
 
 export interface Word {
   id: string;
-  lessonId: string;
   originalText: string;
   translatedText: string;
   sourceLanguage: string;
@@ -21,8 +21,4 @@ export interface DatabaseSchema {
     key: string;
     value: Lesson;
   };
-  words: {
-    key: string;
-    value: Word;
-  };
-} 
+}
