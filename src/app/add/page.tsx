@@ -1,14 +1,15 @@
 'use client';
 
-import { Box, Card, Text } from '@radix-ui/themes';
+import { Box, Text } from '@radix-ui/themes';
+import { AddLessonForm } from '@features/lesson/add';
 
 export default function AddLessonPage() {
   return (
     <Box>
-      <h1>Добавить урок</h1>
-      <Card>
-        <Text>Здесь будет форма добавления урока</Text>
-      </Card>
+      <Text size="6" mb="4" weight="bold">
+        Добавить урок
+      </Text>
+      <AddLessonForm />
     </Box>
   );
-} 
+}

@@ -1,22 +1,34 @@
 'use client';
 
+import { Box, Text } from '@radix-ui/themes';
 import { LessonList } from '@widgets/lesson-list';
-import { useEffect } from 'react';
-
-const mockLessons = [
-  { id: '1', title: 'Урок 1: Приветствие', createdAt: '2024-03-29', updatedAt: '2024-03-29' },
-  { id: '2', title: 'Урок 2: Знакомство', createdAt: '2024-03-29', updatedAt: '2024-03-29' },
-  { id: '3', title: 'Урок 3: Семья', createdAt: '2024-03-29', updatedAt: '2024-03-29' },
-];
+import { useLessons } from '@features/lesson/list/model/useLessons';
 
 export default function LessonPage() {
-  useEffect(() => {
-    console.log('sd');
-  }, []);
+  const { lessons, isLoading, error } = useLessons();
+
+  if (isLoading) {
+    return (
+      <Box>
+        <Text>Загрузка уроков...</Text>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box>
+        <Text color="red">Ошибка при загрузке уроков: {error.message}</Text>
+      </Box>
+    );
+  }
+
   return (
-    <div>
-      hello
-      <LessonList lessons={mockLessons} />
-    </div>
+    <Box>
+      <Text size="6" mb="4" weight="bold">
+        Уроки
+      </Text>
+      <LessonList lessons={lessons} />
+    </Box>
   );
 }
