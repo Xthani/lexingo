@@ -14,6 +14,13 @@ export interface Word {
   targetLanguage: string;
   createdAt: string;
   updatedAt: string;
+  stats?: WordStats;
+}
+
+export interface WordStats {
+  correct: number;
+  almost: number;
+  wrong: number;
 }
 
 export interface DatabaseSchema {

@@ -117,6 +117,30 @@ export default function LessonLearnPage() {
         ...prev,
         [result.result]: prev[result.result] + 1,
       }));
+
+      // Обновляем статистику слова
+      const updatedWord = {
+        ...currentWord,
+        stats: {
+          correct: (currentWord.stats?.correct || 0) + (result.result === 'correct' ? 1 : 0),
+          almost: (currentWord.stats?.almost || 0) + (result.result === 'almost' ? 1 : 0),
+          wrong: (currentWord.stats?.wrong || 0) + (result.result === 'wrong' ? 1 : 0),
+        },
+      };
+
+      // Обновляем слово в уроке
+      if (lesson) {
+        const updatedLesson = {
+          ...lesson,
+          words: lesson.words?.map(w => 
+            w.id === currentWord.id ? updatedWord : w
+          ),
+          updatedAt: new Date().toISOString(),
+        };
+
+        // Сохраняем обновленный урок в IndexedDB
+        getDB().then(db => db.put('lessons', updatedLesson));
+      }
     }
 
     if (result.result !== 'correct' && settings.circularLearning) {
