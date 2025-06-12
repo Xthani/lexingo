@@ -4,13 +4,18 @@ import { ThemeProvider } from 'next-themes';
 import '@shared/styles/globals.scss';
 import { LayoutHeader } from '@shared/ui/layout-header';
 import { Sidebar } from '@shared/ui/sidebar';
+import { ReactNode } from 'react';
 
 export const metadata = {
   title: 'Lexingo',
   description: 'Language learning platform',
 };
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ru" suppressHydrationWarning>
       <body>
