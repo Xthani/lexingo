@@ -17,8 +17,8 @@ export default function LessonPage() {
   useEffect(() => {
     if (!lessonId) return;
     getDB()
-      .then(db => db.get('lessons', lessonId))
-      .then(data => setLesson(data))
+      .then((db) => db.get('lessons', lessonId))
+      .then((data) => setLesson(data))
       .finally(() => setLoading(false));
   }, [lessonId]);
 
@@ -36,14 +36,18 @@ export default function LessonPage() {
       <h1>{lesson.title}</h1>
       {lesson.words && lesson.words.length > 0 ? (
         <Card>
-          <Text size="4" weight="bold" mb="2">Слова в уроке:</Text>
+          <Text size="4" weight="bold" mb="2">
+            Слова в уроке:
+          </Text>
           {lesson.words.map((word) => (
             <Box key={word.id} mb="2">
-              <Text>{word.originalText} - {word.translatedText}</Text>
+              <Text>
+                {word.originalText} - {word.translatedText}
+              </Text>
             </Box>
           ))}
           <Box mt="4">
-            <Button onClick={handleStartLearning} size="3">
+            <Button onClick={handleStartLearning} size="4">
               Начать обучение
             </Button>
           </Box>

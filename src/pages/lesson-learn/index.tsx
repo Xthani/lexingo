@@ -132,14 +132,12 @@ export default function LessonLearnPage() {
       if (lesson) {
         const updatedLesson = {
           ...lesson,
-          words: lesson.words?.map(w => 
-            w.id === currentWord.id ? updatedWord : w
-          ),
+          words: lesson.words?.map((w) => (w.id === currentWord.id ? updatedWord : w)),
           updatedAt: new Date().toISOString(),
         };
 
         // Сохраняем обновленный урок в IndexedDB
-        getDB().then(db => db.put('lessons', updatedLesson));
+        getDB().then((db) => db.put('lessons', updatedLesson));
       }
     }
 
@@ -226,7 +224,7 @@ export default function LessonLearnPage() {
               <Text>Вести статистику</Text>
             </Flex>
           </Box>
-          <Button onClick={handleStart} size="3">
+          <Button onClick={handleStart} size="4">
             Начать обучение
           </Button>
         </Card>
@@ -267,7 +265,9 @@ export default function LessonLearnPage() {
   }
 
   return (
-    <Box>
+    <Box
+      style={{ height: '100%', display: 'flex', justifyContent: 'end', flexDirection: 'column' }}
+    >
       <Card>
         {lastCheckResult && (
           <Box mb="4">
@@ -276,18 +276,19 @@ export default function LessonLearnPage() {
             </Text>
           </Box>
         )}
-        <Text size="4" weight="bold" mb="4">
+        <Text size="4" weight="bold">
           {mode === 'ru-to-en' ? currentWord.originalText : currentWord.translatedText}
         </Text>
-        <Box mb="4">
+        <Box mb="4" mt={'4'}>
           <TextField.Root
+            size={'3'}
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Введите перевод"
           />
         </Box>
-        <Button onClick={handleSubmit} size="3">
+        <Button onClick={handleSubmit} size="4">
           Проверить
         </Button>
         <Box mt="4">
