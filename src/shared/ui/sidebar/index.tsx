@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
 
 const navigation = [
+  { name: 'Главная', href: '/' },
   { name: 'Уроки', href: '/lesson' },
   { name: 'Ошибки', href: '/errors' },
 ];
@@ -25,10 +26,15 @@ export const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
 
   return (
     <>
-      <IconButton className={styles.menuButton} onClick={toggleSidebar} aria-label="Toggle menu">
+      <IconButton
+        className={styles.menuButton}
+        onClick={toggleSidebar}
+        aria-label="Toggle menu"
+        size={'4'}
+      >
         <svg
-          width="15"
-          height="15"
+          width="25"
+          height="25"
           viewBox="0 0 15 15"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +47,9 @@ export const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
           />
         </svg>
       </IconButton>
+      {isOpen && (
+        <div className={styles.overlay} onClick={() => setIsOpen(false)} aria-hidden="true" />
+      )}
       <Box className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
         <Flex direction="column" style={{ height: '100%' }}>
           <Link href={'/'} className={styles.logo}>

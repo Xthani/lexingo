@@ -45,17 +45,13 @@
   text-overflow: ellipsis;
 
   @media (max-width: $mobile) {
-    font-size: 1.2rem;
-
-    span {
-      display: flex;
-      width: 100%;
-      justify-content: center;
-    }
+    display: none;
+    font-size: 1rem;
   }
 }
 
 .nav {
+  padding-top: 4.5rem;
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
@@ -68,6 +64,7 @@
   border-radius: 4px;
   transition: background-color $transition-duration $transition-timing,
               color $transition-duration $transition-timing;
+  font-size: 1rem;
 
   &:hover {
     background-color: var(--border-color);
@@ -75,7 +72,7 @@
   }
 
   @media (max-width: $mobile) {
-    padding: $spacing-xs;
+    padding: $spacing-sm;
     text-align: center;
   }
 }
@@ -89,4 +86,20 @@
   padding: $spacing-sm;
   display: flex;
   justify-content: center;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: $z-sidebar - 1;
+  cursor: pointer;
+
+  @media (max-width: $mobile) {
+    display: block;
+  }
 } 

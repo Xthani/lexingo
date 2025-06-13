@@ -14,6 +14,7 @@
 
   @media (max-width: $mobile) {
     left: 0;
+    height: $header-height-mobile;
   }
 }
 
@@ -36,7 +37,7 @@
 
 .mobileLogo {
   display: none;
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: var(--primary-color);
   text-align: center;

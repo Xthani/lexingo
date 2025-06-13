@@ -70,20 +70,25 @@ export default function LessonEditorPage() {
 
   return (
     <Box>
-      <Flex justify="between" align="center" mb="4">
-        <Text size="6" weight="bold">
-          Редактор уроков
-        </Text>
-        <Button onClick={() => setIsModalOpen(true)}>Добавить урок</Button>
-      </Flex>
+      <Text size="6" weight="bold">
+        Редактор уроков
+      </Text>
 
-      <Box mb="4" style={{ maxWidth: 400 }}>
-        <TextField.Root
-          placeholder="Поиск по названию урока"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </Box>
+      <Flex justify={'between'} direction={'column'} mt={'4'} mb={'4'}>
+        <Box style={{ maxWidth: 400 }}>
+          <TextField.Root
+            mb={'4'}
+            size={'3'}
+            placeholder="Поиск по названию урока"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          <Button size={'4'} onClick={() => setIsModalOpen(true)}>
+            <Text size={'4'}>Добавить урок</Text>
+          </Button>
+        </Box>
+      </Flex>
 
       <LessonEditorList lessons={filteredLessons} onEdit={handleEdit} onDelete={handleDelete} />
 
