@@ -8,8 +8,8 @@ import styles from './styles.module.scss';
 
 const navigation = [
   { name: 'Главная', href: '/' },
-  { name: 'Уроки', href: '/lesson' },
-  { name: 'Ошибки', href: '/errors' },
+  // { name: 'Уроки', href: '/lesson' },
+  // { name: 'Ошибки', href: '/errors' },
 ];
 
 interface SidebarProps {

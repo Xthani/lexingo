@@ -115,4 +115,14 @@ button {
 
 .transition-colors {
   transition: color $transition-duration $transition-timing;
+}
+
+// Radix UI Text component
+[data-radix-themes] {
+  --text-color: var(--text-color);
+}
+
+[data-radix-themes] [data-radix-text],
+[data-radix-themes] [data-radix-text][data-size] {
+  color: var(--text-color) !important;
 } 

@@ -8,11 +8,17 @@ import { Lesson, Word } from '@shared/lib/indexedDB/types';
 import { translate } from '@shared/lib/translate/api';
 import { Cross1Icon, PlusIcon } from '@radix-ui/react-icons';
 import styles from './LessonForm.module.scss';
+import { v4 as uuidv4 } from 'uuid';
 
 interface LessonFormProps {
   lesson?: Lesson;
   onSuccess?: () => void;
   onCancel?: () => void;
+}
+
+interface EditingWord {
+  id: string;
+  field: 'originalText' | 'translatedText';
 }
 
 const LANGUAGES = [
@@ -29,6 +35,9 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
   const [isLoading, setIsLoading] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [editingWord, setEditingWord] = useState<EditingWord | null>(null);
+  const [manualTranslation, setManualTranslation] = useState('');
+  const [showManualInput, setShowManualInput] = useState(false);
   const [newWord, setNewWord] = useState({
     originalText: '',
     sourceLanguage: 'ru',
@@ -43,6 +52,11 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
     setError(null);
 
     try {
+      // Имитация ошибки для тестирования
+      if (true) {
+        throw new Error('Simulated translation error');
+      }
+
       const translatedText = await translate(
         newWord.originalText,
         newWord.sourceLanguage,
@@ -50,7 +64,7 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
       );
 
       const word: Word = {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         originalText: newWord.originalText,
         translatedText,
         sourceLanguage: newWord.sourceLanguage,
@@ -66,11 +80,50 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
         targetLanguage: 'en',
       });
     } catch (error) {
-      setError('Ошибка при переводе слова. Пожалуйста, попробуйте еще раз.');
+      setError('Ошибка при переводе слова. Хотите ввести перевод вручную?');
+      setShowManualInput(true);
       console.error('Error translating word:', error);
     } finally {
       setIsTranslating(false);
     }
+  };
+
+  const handleManualTranslation = () => {
+    if (!manualTranslation.trim()) return;
+
+    const word: Word = {
+      id: uuidv4(),
+      originalText: newWord.originalText,
+      translatedText: manualTranslation,
+      sourceLanguage: newWord.sourceLanguage,
+      targetLanguage: newWord.targetLanguage,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    setWords([...words, word]);
+    setNewWord({
+      originalText: '',
+      sourceLanguage: 'ru',
+      targetLanguage: 'en',
+    });
+    setManualTranslation('');
+    setShowManualInput(false);
+    setError(null);
+  };
+
+  const handleEditWord = (
+    wordId: string,
+    field: 'originalText' | 'translatedText',
+    value: string,
+  ) => {
+    setWords(
+      words.map((word) =>
+        word.id === wordId
+          ? { ...word, [field]: value, updatedAt: new Date().toISOString() }
+          : word,
+      ),
+    );
   };
 
   const handleRemoveWord = (wordId: string) => {
@@ -84,7 +137,7 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
     try {
       const db = await getDB();
       const lessonData: Lesson = {
-        id: lesson?.id || crypto.randomUUID(),
+        id: lesson?.id || uuidv4(),
         title,
         words,
         createdAt: lesson?.createdAt || new Date().toISOString(),
@@ -134,8 +187,38 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
               <Card key={word.id} className={styles.wordItem}>
                 <Flex justify="between" align="center">
                   <Box>
-                    <Text weight="bold">{word.originalText}</Text>
-                    <Text color="gray">{word.translatedText}</Text>
+                    {editingWord?.id === word.id && editingWord.field === 'originalText' ? (
+                      <TextField.Root
+                        value={word.originalText}
+                        onChange={(e) => handleEditWord(word.id, 'originalText', e.target.value)}
+                        onBlur={() => setEditingWord(null)}
+                        autoFocus
+                      />
+                    ) : (
+                      <Text
+                        weight="bold"
+                        onClick={() => setEditingWord({ id: word.id, field: 'originalText' })}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        {word.originalText}
+                      </Text>
+                    )}
+                    {editingWord?.id === word.id && editingWord.field === 'translatedText' ? (
+                      <TextField.Root
+                        value={word.translatedText}
+                        onChange={(e) => handleEditWord(word.id, 'translatedText', e.target.value)}
+                        onBlur={() => setEditingWord(null)}
+                        autoFocus
+                      />
+                    ) : (
+                      <Text
+                        color="gray"
+                        onClick={() => setEditingWord({ id: word.id, field: 'translatedText' })}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        {word.translatedText}
+                      </Text>
+                    )}
                   </Box>
                   <IconButton color="red" onClick={() => handleRemoveWord(word.id)}>
                     <Cross1Icon />
@@ -153,45 +236,68 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
                   setNewWord({ ...newWord, originalText: e.target.value })
                 }
                 placeholder="Введите слово"
-                disabled={isTranslating}
+                disabled={isTranslating || showManualInput}
               />
             </Box>
 
-            <Flex gap="2" align="center" justify="end" className={styles.controls}>
-              <Select.Root
-                value={newWord.sourceLanguage}
-                onValueChange={(value) => setNewWord({ ...newWord, sourceLanguage: value })}
-                disabled={isTranslating}
-              >
-                <Select.Trigger />
-                <Select.Content>
-                  {LANGUAGES.map((lang) => (
-                    <Select.Item key={lang.value} value={lang.value}>
-                      {lang.label}
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Root>
+            {showManualInput ? (
+              <Flex gap="2" className={styles.controls} direction={'column'}>
+                <TextField.Root
+                  value={manualTranslation}
+                  onChange={(e) => setManualTranslation(e.target.value)}
+                  placeholder="Введите перевод вручную"
+                />
+                <Flex gap={'2'} justify={'end'}>
+                  <Button onClick={handleManualTranslation}>Добавить</Button>
+                  <Button
+                    variant="soft"
+                    onClick={() => {
+                      setShowManualInput(false);
+                      setError(null);
+                      setManualTranslation('');
+                    }}
+                  >
+                    Отмена
+                  </Button>
+                </Flex>
+              </Flex>
+            ) : (
+              <Flex gap="2" align="center" justify="end" className={styles.controls}>
+                <Select.Root
+                  value={newWord.sourceLanguage}
+                  onValueChange={(value) => setNewWord({ ...newWord, sourceLanguage: value })}
+                  disabled={isTranslating}
+                >
+                  <Select.Trigger />
+                  <Select.Content>
+                    {LANGUAGES.map((lang) => (
+                      <Select.Item key={lang.value} value={lang.value}>
+                        {lang.label}
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select.Root>
 
-              <Select.Root
-                value={newWord.targetLanguage}
-                onValueChange={(value) => setNewWord({ ...newWord, targetLanguage: value })}
-                disabled={isTranslating}
-              >
-                <Select.Trigger />
-                <Select.Content>
-                  {LANGUAGES.map((lang) => (
-                    <Select.Item key={lang.value} value={lang.value}>
-                      {lang.label}
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Root>
+                <Select.Root
+                  value={newWord.targetLanguage}
+                  onValueChange={(value) => setNewWord({ ...newWord, targetLanguage: value })}
+                  disabled={isTranslating}
+                >
+                  <Select.Trigger />
+                  <Select.Content>
+                    {LANGUAGES.map((lang) => (
+                      <Select.Item key={lang.value} value={lang.value}>
+                        {lang.label}
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select.Root>
 
-              <IconButton type="button" onClick={handleAddWord} disabled={isTranslating}>
-                <PlusIcon />
-              </IconButton>
-            </Flex>
+                <IconButton type="button" onClick={handleAddWord} disabled={isTranslating}>
+                  <PlusIcon />
+                </IconButton>
+              </Flex>
+            )}
           </Box>
 
           {error && (

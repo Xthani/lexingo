@@ -265,9 +265,7 @@ export default function LessonLearnPage() {
   }
 
   return (
-    <Box
-      style={{ height: '100%', display: 'flex', justifyContent: 'end', flexDirection: 'column' }}
-    >
+    <Box>
       <Card>
         {lastCheckResult && (
           <Box mb="4">

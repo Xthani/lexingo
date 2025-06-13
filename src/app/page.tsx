@@ -70,7 +70,7 @@ export default function LessonEditorPage() {
 
   return (
     <Box>
-      <Text size="6" weight="bold">
+      <Text size="6" weight="bold" style={{ color: 'var(--text-color)' }}>
         Редактор уроков
       </Text>
 

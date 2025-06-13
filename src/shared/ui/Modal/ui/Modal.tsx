@@ -15,15 +15,9 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Content className={styles.modal}>
-        {title && (
-          <Dialog.Title className={styles.title}>
-            {title}
-          </Dialog.Title>
-        )}
-        <Box className={styles.content}>
-          {children}
-        </Box>
+        {title && <Dialog.Title className={styles.title}>{title}</Dialog.Title>}
+        <Box className={styles.content}>{children}</Box>
       </Dialog.Content>
     </Dialog.Root>
   );
-}; 
+};
