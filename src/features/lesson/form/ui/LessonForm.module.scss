@@ -23,10 +23,15 @@
 
 .addWord {
   display: flex;
-  gap: 8px;
-  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
 
-  > *:first-child {
-    flex: 1;
+  .inputWrapper {
+    width: 100%;
+  }
+
+  .controls {
+    width: 100%;
   }
 } 

@@ -146,48 +146,52 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
           </Box>
 
           <Box className={styles.addWord}>
-            <TextField.Root
-              value={newWord.originalText}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setNewWord({ ...newWord, originalText: e.target.value })
-              }
-              placeholder="Введите слово"
-              disabled={isTranslating}
-            />
+            <Box className={styles.inputWrapper}>
+              <TextField.Root
+                value={newWord.originalText}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewWord({ ...newWord, originalText: e.target.value })
+                }
+                placeholder="Введите слово"
+                disabled={isTranslating}
+              />
+            </Box>
 
-            <Select.Root
-              value={newWord.sourceLanguage}
-              onValueChange={(value) => setNewWord({ ...newWord, sourceLanguage: value })}
-              disabled={isTranslating}
-            >
-              <Select.Trigger />
-              <Select.Content>
-                {LANGUAGES.map((lang) => (
-                  <Select.Item key={lang.value} value={lang.value}>
-                    {lang.label}
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Root>
+            <Flex gap="2" align="center" justify="end" className={styles.controls}>
+              <Select.Root
+                value={newWord.sourceLanguage}
+                onValueChange={(value) => setNewWord({ ...newWord, sourceLanguage: value })}
+                disabled={isTranslating}
+              >
+                <Select.Trigger />
+                <Select.Content>
+                  {LANGUAGES.map((lang) => (
+                    <Select.Item key={lang.value} value={lang.value}>
+                      {lang.label}
+                    </Select.Item>
+                  ))}
+                </Select.Content>
+              </Select.Root>
 
-            <Select.Root
-              value={newWord.targetLanguage}
-              onValueChange={(value) => setNewWord({ ...newWord, targetLanguage: value })}
-              disabled={isTranslating}
-            >
-              <Select.Trigger />
-              <Select.Content>
-                {LANGUAGES.map((lang) => (
-                  <Select.Item key={lang.value} value={lang.value}>
-                    {lang.label}
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Root>
+              <Select.Root
+                value={newWord.targetLanguage}
+                onValueChange={(value) => setNewWord({ ...newWord, targetLanguage: value })}
+                disabled={isTranslating}
+              >
+                <Select.Trigger />
+                <Select.Content>
+                  {LANGUAGES.map((lang) => (
+                    <Select.Item key={lang.value} value={lang.value}>
+                      {lang.label}
+                    </Select.Item>
+                  ))}
+                </Select.Content>
+              </Select.Root>
 
-            <IconButton type="button" onClick={handleAddWord} disabled={isTranslating}>
-              <PlusIcon />
-            </IconButton>
+              <IconButton type="button" onClick={handleAddWord} disabled={isTranslating}>
+                <PlusIcon />
+              </IconButton>
+            </Flex>
           </Box>
 
           {error && (

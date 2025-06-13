@@ -1,10 +1,10 @@
+// 'use client';
+
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import { ThemeProvider } from 'next-themes';
 import '@shared/styles/globals.scss';
-import { LayoutHeader } from '@shared/ui/layout-header';
-import { Sidebar } from '@shared/ui/sidebar';
-import { ReactNode } from 'react';
+import { LayoutShell } from '@/widgets/layout-shell/LayoutShell';
 
 export const metadata = {
   title: 'Lexingo',
@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 interface RootLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -21,11 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
           <Theme accentColor="blue" grayColor="slate" radius="medium">
-            <div className="layout">
-              <Sidebar />
-              <LayoutHeader />
-              <main className="main-content">{children}</main>
-            </div>
+            <LayoutShell>{children}</LayoutShell>
           </Theme>
         </ThemeProvider>
       </body>

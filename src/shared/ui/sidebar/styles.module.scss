@@ -1,5 +1,20 @@
 @import '../../styles/variables';
 
+.menuButton {
+  cursor: pointer;
+  display: none;
+  position: fixed;
+  top: $spacing-md;
+  left: $spacing-md;
+  z-index: $z-sidebar + 100;
+  background: var(--sidebar-background);
+  border: 1px solid var(--border-color);
+
+  @media (max-width: $mobile) {
+    display: flex;
+  }
+}
+
 .sidebar {
   width: $sidebar-width;
   position: fixed;
@@ -7,12 +22,16 @@
   background: var(--sidebar-background);
   border-right: 1px solid var(--border-color);
   padding: $spacing-md;
-  transition: width $transition-duration $transition-timing,
+  transition: transform $transition-duration $transition-timing,
               background-color $transition-duration $transition-timing;
   z-index: $z-sidebar;
 
   @media (max-width: $mobile) {
-    width: $sidebar-width-collapsed;
+    transform: translateX(-100%);
+    
+    &.open {
+      transform: translateX(0);
+    }
   }
 }
 
@@ -27,6 +46,12 @@
 
   @media (max-width: $mobile) {
     font-size: 1.2rem;
+
+    span {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+    }
   }
 }
 

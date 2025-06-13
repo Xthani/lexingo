@@ -73,7 +73,7 @@ a {
   transition: margin-left $transition-duration $transition-timing;
 
   @media (max-width: $mobile) {
-    margin-left: $sidebar-width-collapsed;
+    margin-left: 0;
   }
 }
 
