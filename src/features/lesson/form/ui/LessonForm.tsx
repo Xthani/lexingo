@@ -52,11 +52,6 @@ export const LessonForm = ({ lesson, onSuccess, onCancel }: LessonFormProps) => 
     setError(null);
 
     try {
-      // Имитация ошибки для тестирования
-      if (true) {
-        throw new Error('Simulated translation error');
-      }
-
       const translatedText = await translate(
         newWord.originalText,
         newWord.sourceLanguage,
