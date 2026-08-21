@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Card, Text } from '@radix-ui/themes';
+import { Box, Card } from '@radix-ui/themes';
 import { Lesson } from '@entities/lesson/model/types';
 import styles from './LessonList.module.scss';
 import { LessonSelect } from '@features/lesson/select';

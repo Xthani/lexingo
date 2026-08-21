@@ -32,7 +32,7 @@ export const LessonEditorList = ({ lessons, onEdit, onDelete }: LessonEditorList
         <Card
           key={lesson.id}
           className={styles.item}
-          onClick={(e) => {
+          onClick={() => {
             handleLessonChange(lesson.id);
           }}
         >
