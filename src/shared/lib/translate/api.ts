@@ -1,5 +1,3 @@
-const LIBRE_TRANSLATE_API = 'https://libretranslate.de';
-
 export interface TranslateRequest {
   q: string;
   source: string;
@@ -53,4 +51,4 @@ export async function freeTranslateText(
 export const translate = async (text: string, sourceLang: string, targetLang: string): Promise<string> => {
   const result = await freeTranslateText(text, targetLang, sourceLang);
   return result.translatedText;
-}; 
+};
